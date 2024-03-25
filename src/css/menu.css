@@ -1,0 +1,46 @@
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333; /* Color de fondo del menú */
+    padding: 10px 20px; /* Espaciado interior del menú */
+  }
+  
+  .logo {
+    font-weight: bold;
+    color: white;
+    text-decoration: none; /* Eliminar subrayado de los enlaces */
+    margin-right: 19px;
+  }
+  
+  .menu-items {
+    list-style-type: none; /* Eliminar viñetas de la lista */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu-items li {
+    display: inline;
+    margin-right: 20px; /* Espaciado entre elementos del menú */
+  }
+  
+  .menu-items li a {
+    color: white;
+    text-decoration: none; /* Eliminar subrayado de los enlaces */
+  }
+  
+  .search-bar {
+    flex: 1; /* La barra de búsqueda ocupa todo el espacio restante */
+    margin: 0 20px; /* Margen a los lados de la barra de búsqueda */
+  }
+  
+  .icons {
+    display: flex;
+  }
+  
+  .icon {
+    margin-right: 10px; /* Espaciado entre iconos */
+    height: 40px; /* Tamaño de los iconos */
+    color: white;
+  }
+  

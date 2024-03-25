@@ -1,0 +1,20 @@
+.search-bar {
+    flex: 1; /* La barra de búsqueda ocupa todo el espacio restante */
+    margin: 0 20px; /* Margen a los lados de la barra de búsqueda */
+  }
+  
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde */
+    background-color: #fff; /* Color de fondo */
+    font-size: 16px; /* Tamaño de la fuente */
+  }
+  
+  /* Opcional: Estilo cuando el input está enfocado */
+  .search-bar input[type="text"]:focus {
+    outline: none; /* Eliminar el contorno de enfoque */
+    border-color: #007bff; /* Cambiar color del borde al enfocar */
+  }
+  

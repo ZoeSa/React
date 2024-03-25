@@ -1,0 +1,39 @@
+.product {
+    width: calc(20% - 20px); /* Esto generará 5 columnas en un tamaño de pantalla grande */
+    margin: 10px;
+    padding: 10px; /* Agrega espacio dentro del borde */
+    padding-bottom: 45px;
+    border: 1px solid #ccc; /* Agrega un borde sólido de 1px */
+    vertical-align: top;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Alinear los elementos internos verticalmente */
+    position: relative;
+  }
+  
+  .product img {
+    width: auto;
+    height: 200px; /* Todas las imágenes tendrán la misma altura */
+    max-width: 200px;
+  }
+  
+  .product h2 {
+    font-weight: bold; /* El título tendrá negrita */
+  }
+  
+  .product p.description {
+    margin: auto 0;
+    text-align: left;
+  }  
+  
+  .product .price-container {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+  }
+  
+  .product p.price {
+    color: rgb(55, 137, 224); /* El precio tendrá color azul */
+    font-weight: bold;
+  }
+  
