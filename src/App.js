@@ -1,44 +1,54 @@
+import './App.css';
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Product from './componentes/Product';
-import data from './data/data.json'; // Importa tus datos de productos
+import data from './data/data.json';
 import Menu from './componentes/Menu';
-import { BrowserRouter as Router } from 'react-router-dom'; // Importa BrowserRouter de react-router-dom
-import './App.css'
+import Cart from './componentes/Cart'; // Importa el componente Cart
+import './App.css';
 
 function App() {
-  const [products, setProducts] = useState(data); // Inicializa el estado de los productos con los datos
+  const [products] = useState(data);
+  const [cartItems, setCartItems] = useState([]);
 
-  // Función para filtrar los productos por nombre
-  const filterProducts = (searchTerm) => {
-    const filteredProducts = data.filter(product =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setProducts(filteredProducts);
+  const addToCart = (productId) => {
+    const productToAdd = products.find(product => product.id === productId);
+    if (productToAdd) {
+      const existingCartItem = cartItems.find(item => item.id === productToAdd.id);
+      if (existingCartItem) {
+        setCartItems(cartItems.map(item =>
+          item.id === productToAdd.id ? { ...item, quantity: item.quantity + 1 } : item
+        ));
+      } else {
+        setCartItems([...cartItems, { ...productToAdd, quantity: 1 }]);
+      }
+    }
   };
 
   return (
-    <Router> {/* Envuelve tu aplicación con el componente Router */}
+    <Router>
       <div className="App">
-        <Menu onSearch={filterProducts} /> {/* Pasando la función filterProducts al Menu */}
-        <div className='discount'>
-          <div className='discount-banner'>
-            <h2>¡20% de descuento para nuevos clientes!</h2>
-          </div> 
-        </div>
-        <div className="products">
-          {products.map(product => (
-            <Product
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              price={product.price}
-              description={product.description}
-              category={product.category}
-              image={product.image}
-              rating={product.rating}
-            />
-          ))}
-        </div>
+        <Menu onSearch={() => {}} cartItems={cartItems} />
+        <Routes>
+          <Route path="/" element={
+            <div className="products">
+              {products.map(product => (
+                <Product
+                  key={product.id}
+                  id={product.id}
+                  title={product.title}
+                  price={product.price}
+                  description={product.description}
+                  category={product.category}
+                  image={product.image}
+                  rating={product.rating}
+                  addToCart={addToCart}
+                />
+              ))}
+            </div>
+          } />
+          <Route path="/carrito" element={<Cart cartItems={cartItems} />} /> {/* Agregar la ruta para el carrito */}
+        </Routes>
       </div>
     </Router>
   );

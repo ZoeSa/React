@@ -1,12 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import ShoppingCartIcon from '../iconos/carrito-de-compras.svg'; // Importa el icono de carrito de compras desde la carpeta iconos
-import HeartIcon from '../iconos/corazon.svg'; // Importa el icono de corazón desde la carpeta iconos
-import UserIcon from '../iconos/usuario.svg'; // Importa el icono de usuario desde la carpeta iconos
-import '../css/menu.css'
+import ShoppingCartIcon from '../iconos/carrito-de-compras.svg';
+import HeartIcon from '../iconos/corazon.svg';
+import UserIcon from '../iconos/usuario.svg';
+import '../css/menu.css';
 
-function Menu({ onSearch }) {
+function Menu({ onSearch, cartItems }) {
+  const [showCart, setShowCart] = useState(false); // Estado para controlar la visibilidad del carrito
+
+  const toggleCart = () => {
+    setShowCart(!showCart);
+  };
+
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <nav className="menu">
       <Link to="/" className="logo">MiTienda</Link>
@@ -17,15 +25,19 @@ function Menu({ onSearch }) {
         <li><Link to="/contacto">Contacto</Link></li>
       </ul>
       <div className="search-bar">
-        <SearchBar onSearch={onSearch} /> {/* Pasando la función onSearch al SearchBar */}
+        <SearchBar onSearch={onSearch} />
       </div>
       <div className="icons">
-        {/* Icono de carrito de compras */}
-        <img src={ShoppingCartIcon} alt="Carrito de compras" className="icon" />
-        {/* Icono de corazón */}
+        {/* Enlace al carrito */}
+        <div className="icon-link" onClick={toggleCart}>
+        <Link to="/carrito">
+          <img src={ShoppingCartIcon} alt="Carrito de compras" className="icon" />
+          </Link>
+          <span className="badge">{totalItems}</span>
+        </div>
         <img src={HeartIcon} alt="Corazón" className="icon" />
-        {/* Icono de usuario */}
         <img src={UserIcon} alt="Usuario" className="icon" />
+        
       </div>
     </nav>
   );
