@@ -1,3 +1,5 @@
+// App.js
+
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -5,11 +7,16 @@ import Product from './componentes/Product';
 import data from './data/data.json';
 import Menu from './componentes/Menu';
 import Cart from './componentes/Cart'; // Importa el componente Cart
-import './App.css';
+
 
 function App() {
   const [products] = useState(data);
   const [cartItems, setCartItems] = useState([]);
+  const [theme, setTheme] = useState('light'); // Estado para el tema
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
 
   const addToCart = (productId) => {
     const productToAdd = products.find(product => product.id === productId);
@@ -27,8 +34,8 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Menu onSearch={() => {}} cartItems={cartItems} />
+      <div className={`App ${theme}`}>
+        <Menu onSearch={() => {}} cartItems={cartItems} toggleTheme={toggleTheme} />
         <Routes>
           <Route path="/" element={
             <div className="products">

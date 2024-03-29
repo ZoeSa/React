@@ -40,7 +40,10 @@
   
   .icon {
     margin-right: 10px; /* Espaciado entre iconos */
-    height: 40px; /* Tamaño de los iconos */
+    height: 30px; /* Tamaño de los iconos */
     color: white;
   }
   
+.dark-icon{
+  height: 30px;
+}

@@ -26,3 +26,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.dark{
+  background-color: rgb(150, 150, 150);
+}
+
+.dark .menu{
+  background-color: #717171 !important;
+}
