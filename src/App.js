@@ -7,6 +7,7 @@ import Product from './componentes/Product';
 import data from './data/data.json';
 import Menu from './componentes/Menu';
 import Cart from './componentes/Cart'; // Importa el componente Cart
+import RegistrationForm from './componentes/RegistrationForm';
 
 
 function App() {
@@ -52,9 +53,15 @@ function App() {
                   addToCart={addToCart}
                 />
               ))}
+            <RegistrationForm /> {/* Formulario de registro en la página principal */}
             </div>
           } />
-          <Route path="/carrito" element={<Cart cartItems={cartItems} />} /> {/* Agregar la ruta para el carrito */}
+          <Route path="/carrito" element={
+            <div className="cart-page">
+              <Cart cartItems={cartItems} />
+              <RegistrationForm /> {/* Formulario de registro en la página de carrito */}
+            </div>
+          } />
         </Routes>
       </div>
     </Router>
