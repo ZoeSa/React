@@ -8,12 +8,15 @@ import data from './data/data.json';
 import Menu from './componentes/Menu';
 import Cart from './componentes/Cart'; // Importa el componente Cart
 import RegistrationForm from './componentes/RegistrationForm';
+import Discount from './componentes/Discount'; // Importa el componente Discount
 
 
 function App() {
   const [products] = useState(data);
   const [cartItems, setCartItems] = useState([]);
   const [theme, setTheme] = useState('light'); // Estado para el tema
+  const [username, setUsername] = useState(''); // Define username y setUsername aquí
+
 
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -33,10 +36,15 @@ function App() {
     }
   };
 
+  const handleUserRegistration = (name) => {
+    setUsername(name);
+  };
+
   return (
     <Router>
       <div className={`App ${theme}`}>
         <Menu onSearch={() => {}} cartItems={cartItems} toggleTheme={toggleTheme} />
+        <Discount username={username} />
         <Routes>
           <Route path="/" element={
             <div className="products">
@@ -53,13 +61,13 @@ function App() {
                   addToCart={addToCart}
                 />
               ))}
-            <RegistrationForm /> {/* Formulario de registro en la página principal */}
+            <RegistrationForm onRegister={handleUserRegistration} /> {/* Formulario de registro en la página principal */}
             </div>
           } />
           <Route path="/carrito" element={
             <div className="cart-page">
               <Cart cartItems={cartItems} />
-              <RegistrationForm /> {/* Formulario de registro en la página de carrito */}
+              <RegistrationForm onRegister={handleUserRegistration} /> {/* Formulario de registro en la página de carrito */}
             </div>
           } />
         </Routes>

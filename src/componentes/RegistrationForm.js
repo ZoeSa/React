@@ -1,7 +1,7 @@
 // RegistrationForm.js
 import React, { useState } from 'react';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ onRegister }) =>  {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,6 +21,8 @@ const RegistrationForm = () => {
     // Limpiar campos del formulario
     setUsername('');
     setPassword('');
+     // Llamar a la función onRegister con el nombre de usuario
+     onRegister(username);
   };
 
   return (
