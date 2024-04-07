@@ -1,7 +1,7 @@
 // RegistrationForm.js
 import React, { useState } from 'react';
 
-const RegistrationForm = ({ onRegister }) =>  {
+const RegistrationForm = ({ onRegister, targetProduct }) =>  {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,8 +21,8 @@ const RegistrationForm = ({ onRegister }) =>  {
     // Limpiar campos del formulario
     setUsername('');
     setPassword('');
-     // Llamar a la función onRegister con el nombre de usuario
-     onRegister(username);
+     // Llamar a la función onRegister con el nombre de usuario y la URL del producto
+     onRegister(username, targetProduct);
   };
 
   return (

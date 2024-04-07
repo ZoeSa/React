@@ -1,23 +1,24 @@
 // App.js
-
-import './App.css';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Product from './componentes/Product';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import data from './data/data.json';
 import Menu from './componentes/Menu';
-import Cart from './componentes/Cart'; // Importa el componente Cart
-import RegistrationForm from './componentes/RegistrationForm';
-import Discount from './componentes/Discount'; // Importa el componente Discount
+import Cart from './componentes/Cart';
+import Authentication from './componentes/Authentication';
+import Discount from './componentes/Discount';
+import ProductDetail from './componentes/ProductDetails';
+import ProductRender from './context/ProductRender';
+import { AuthProvider } from './context/AuthorContext';
 
 
 function App() {
   const [products] = useState(data);
   const [cartItems, setCartItems] = useState([]);
-  const [theme, setTheme] = useState('light'); // Estado para el tema
-  const [username, setUsername] = useState(''); // Define username y setUsername aquí
-
-
+  const [theme, setTheme] = useState('light');
+  const [username, setUsername] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [targetProduct, setTargetProduct] = useState(null);
+  
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
@@ -38,41 +39,38 @@ function App() {
 
   const handleUserRegistration = (name) => {
     setUsername(name);
+    setIsLoggedIn(true);
+    if (targetProduct) {
+      return <Navigate to={targetProduct} />;
+    } else {
+      return <Navigate to="/carrito" />;
+    }
+  };
+
+  const handleProductClick = (productId, navigate) => {
+    if (isLoggedIn) {
+      return navigate(`/producto/${productId}`);
+    } else {
+      setTargetProduct(`/producto/${productId}`);
+      return navigate('/registro');
+    }
   };
 
   return (
-    <Router>
-      <div className={`App ${theme}`}>
-        <Menu onSearch={() => {}} cartItems={cartItems} toggleTheme={toggleTheme} />
-        <Discount username={username} />
-        <Routes>
-          <Route path="/" element={
-            <div className="products">
-              {products.map(product => (
-                <Product
-                  key={product.id}
-                  id={product.id}
-                  title={product.title}
-                  price={product.price}
-                  description={product.description}
-                  category={product.category}
-                  image={product.image}
-                  rating={product.rating}
-                  addToCart={addToCart}
-                />
-              ))}
-            <RegistrationForm onRegister={handleUserRegistration} /> {/* Formulario de registro en la página principal */}
-            </div>
-          } />
-          <Route path="/carrito" element={
-            <div className="cart-page">
-              <Cart cartItems={cartItems} />
-              <RegistrationForm onRegister={handleUserRegistration} /> {/* Formulario de registro en la página de carrito */}
-            </div>
-          } />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className={`App ${theme}`}>
+          <Menu onSearch={() => { }} cartItems={cartItems} toggleTheme={toggleTheme} isLoggedIn={isLoggedIn} />
+          <Discount username={username} />
+          <Routes>
+            <Route path="/" element={<ProductRender products={products} addToCart={addToCart} handleProductClick={handleProductClick} />} />
+            <Route path="/carrito" element={<Cart cartItems={cartItems} />} />
+            <Route path="/producto/:productId" element={<ProductDetail />} />
+            <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

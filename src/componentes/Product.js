@@ -1,7 +1,7 @@
+// context/Product.js
 import React from 'react';
-import '../css/product.css';
 
-const Product = ({ id, title, price, description, image, addToCart }) => {
+const Product = ({ id, title, price, description, image }) => {
   return (
     <div className="product">
       <img src={image} alt={title} />
@@ -10,7 +10,6 @@ const Product = ({ id, title, price, description, image, addToCart }) => {
       <div className="price-container">
         <p className="price">${price}</p>
       </div>
-      <button onClick={() => addToCart(id)}>Añadir al carrito</button>
     </div>
   );
 };
