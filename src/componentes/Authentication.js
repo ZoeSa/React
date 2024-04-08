@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hook/useAuth';
 
-const Authentication = ({ targetProduct }) => {
-  const { isLoggedIn, login, logout} = useAuth();
+const Authentication = ({onRegister, targetProduct }) => {
+  const { isLoggedIn, logout} = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isRegisterMode, setIsRegisterMode] = useState(false);
+ 
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -20,32 +20,30 @@ const Authentication = ({ targetProduct }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isRegisterMode) {
+  
       // Registro de usuario
       localStorage.setItem('username', username);
       localStorage.setItem('password', password);
+
+      if (onRegister){
+        onRegister(username);
+      }
       setUsername('');
       setPassword('');
-      setIsRegisterMode(false);
+     
       if (targetProduct) {
         navigate(targetProduct);
       } else {
         navigate('/carrito');
       }
-    } else {
-      // Inicio de sesión
-      login();
-      navigate('/');
-    }
+  
   };
 
-  const toggleMode = () => {
-    setIsRegisterMode(!isRegisterMode);
-  };
+  
 
   return (
     <div>
-      <h1>{isRegisterMode ? 'Registro' : 'Inicio de sesión'}</h1>
+      <h1>Registro</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -59,11 +57,9 @@ const Authentication = ({ targetProduct }) => {
           value={password}
           onChange={handlePasswordChange}
         />
-        <button type="submit">{isRegisterMode ? 'Registrarse' : 'Iniciar Sesión'}</button>
+        <button type="submit">Registrarse</button>
       </form>
-      <button onClick={toggleMode}>
-        {isRegisterMode ? '¿Ya tienes una cuenta? Inicia sesión' : '¿No tienes una cuenta? Regístrate'}
-      </button>
+     
       {isLoggedIn && (
         <button onClick={logout}>Cerrar Sesión</button>
       )}

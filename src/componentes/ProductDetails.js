@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const ProductDetail = ({ products, addToCart }) => {
     const { productId } = useParams();
-    const product = products.find(product => product.id === productId);
+    const product = products.find(product => product.id === parseInt(productId));
 
     if (!product) {
         return <div>No se encontró el producto.</div>;

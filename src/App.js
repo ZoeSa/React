@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from 'react';
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import data from './data/data.json';
@@ -8,6 +7,7 @@ import Authentication from './componentes/Authentication';
 import Discount from './componentes/Discount';
 import ProductDetail from './componentes/ProductDetails';
 import ProductRender from './context/ProductRender';
+import Error404 from './componentes/Error404';
 import { AuthProvider } from './context/AuthorContext';
 
 
@@ -49,10 +49,10 @@ function App() {
 
   const handleProductClick = (productId, navigate) => {
     if (isLoggedIn) {
-      return navigate(`/producto/${productId}`);
+      navigate(`/producto/${productId}`);
     } else {
       setTargetProduct(`/producto/${productId}`);
-      return navigate('/registro');
+       navigate('/registro');
     }
   };
 
@@ -65,8 +65,9 @@ function App() {
           <Routes>
             <Route path="/" element={<ProductRender products={products} addToCart={addToCart} handleProductClick={handleProductClick} />} />
             <Route path="/carrito" element={<Cart cartItems={cartItems} />} />
-            <Route path="/producto/:productId" element={<ProductDetail />} />
-            <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} />} />
+            <Route path="/producto/:productId" element={<ProductDetail products={products} addToCart={addToCart}/>} />
+            <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} targetProduct={targetProduct} />} />
+            <Route path="*" element={<Error404 />} />
           </Routes>
         </div>
       </BrowserRouter>

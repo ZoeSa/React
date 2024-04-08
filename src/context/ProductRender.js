@@ -2,8 +2,9 @@
 import React from 'react';
 import Product from '../componentes/Product';
 import '../css/product.css';
+import { useNavigate } from 'react-router-dom';
 
-const ProductRender = ({ products, addToCart, handleProductClick, navigate }) => {
+const ProductRender = ({ products, addToCart, handleProductClick}) => {
     const navigate = useNavigate();
     return (
     <div className="products">
@@ -18,8 +19,8 @@ const ProductRender = ({ products, addToCart, handleProductClick, navigate }) =>
           image={product.image}
           rating={product.rating}
           addToCart={addToCart}
-          handleProductClick={() => handleProductClick(product.id,)
-                    navigate("/producto/:productId")
+          handleProductClick={() => handleProductClick(product.id, navigate)
+                
             }
         />
       ))}
