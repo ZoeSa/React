@@ -1,9 +1,12 @@
 // ProductDetail.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import {useCart} from '../context/CartContext';
 
-const ProductDetail = ({ products, addToCart }) => {
+const ProductDetail = () => {
     const { productId } = useParams();
+    const { addToCart, products } = useCart();
+    console.log(products)// Usar useContext en lugar de useCart
     const product = products.find(product => product.id === parseInt(productId));
 
     if (!product) {
@@ -11,6 +14,7 @@ const ProductDetail = ({ products, addToCart }) => {
     }
 
     const { id, image, title, price, description } = product;
+ 
 
     return (
         <div>

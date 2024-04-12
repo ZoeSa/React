@@ -8,8 +8,10 @@ import ShoppingCartIcon from '../iconos/carrito-de-compras.svg';
 import HeartIcon from '../iconos/corazon.svg';
 import UserIcon from '../iconos/usuario.svg';
 import '../css/menu.css';
+import { useCart } from '../context/CartContext';
 
-function Menu({ onSearch, cartItems, toggleTheme, isLoggedIn }) {
+function Menu({ onSearch, toggleTheme, isLoggedIn }) {
+  const {cartItems}=useCart();
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
   const navigate = useNavigate();
 

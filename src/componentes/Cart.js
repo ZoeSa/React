@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCart } from '../context/CartContext';
 
 const CartItem = ({ item
  }) => {
@@ -15,7 +16,8 @@ const CartItem = ({ item
   );
 };
 
-const Cart = ({ cartItems }) => {
+const Cart = () => {
+  const { cartItems } = useCart();
   // Verificar si cartItems está definido y no es nulo
   if (!cartItems || cartItems.length === 0) {
     return <div>El carrito está vacío</div>;
@@ -23,6 +25,7 @@ const Cart = ({ cartItems }) => {
 
   // Calcular el total de la compra
   const totalPurchase = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+
 
   return (
     <div className="cart">
