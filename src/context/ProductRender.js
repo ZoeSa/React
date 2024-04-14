@@ -1,6 +1,6 @@
 //productRender.js
 import React from 'react';
-import Product from '../componentes/Product';
+import Product from '../componentes/ProductAdmin';
 import '../css/product.css';
 import { useNavigate } from 'react-router-dom';
 

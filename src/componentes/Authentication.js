@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hook/useAuth';
 
-const Authentication = ({onRegister, targetProduct }) => {
+const Authentication = ({ onRegister, targetProduct }) => {
   const { isLoggedIn, logout} = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
- 
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -20,26 +24,47 @@ const Authentication = ({onRegister, targetProduct }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-      // Registro de usuario
-      localStorage.setItem('username', username);
-      localStorage.setItem('password', password);
 
-      if (onRegister){
-        onRegister(username);
-      }
-      setUsername('');
-      setPassword('');
-     
-      if (targetProduct) {
-        navigate(targetProduct);
-      } else {
-        navigate('/carrito');
-      }
-  
+    // Validar que se ingresen todos los campos
+    if (!username || !email || !password) {
+      alert('Por favor ingrese todos los campos.');
+      return;
+    }
+
+    // Registro de usuario
+    const newUser = {
+      username: username,
+      email: email,
+      password: password,
+      rol: email === 'admin@admin.com' ? 'admin' : 'user' // Establecer el rol según el correo electrónico
+    };
+
+    // Obtener los usuarios existentes
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Agregar el nuevo usuario
+    users.push(newUser);
+
+
+    // Guardar en localStorage
+    localStorage.setItem('users', JSON.stringify(users));
+
+    if (onRegister){
+        console.log("3", targetProduct);
+      onRegister(username);
+    }
+    setUsername('');
+    setEmail('');
+    setPassword('');
+
+    if (targetProduct) {
+        console.log("1", targetProduct);
+      navigate(targetProduct);
+    } else {
+        console.log("2", targetProduct);
+      navigate('/carrito');
+    }
   };
-
-  
 
   return (
     <div>
@@ -50,6 +75,12 @@ const Authentication = ({onRegister, targetProduct }) => {
           placeholder="Usuario"
           value={username}
           onChange={handleUsernameChange}
+        />
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={handleEmailChange}
         />
         <input
           type="password"

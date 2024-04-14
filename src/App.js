@@ -6,7 +6,7 @@ import Cart from './componentes/Cart';
 import Authentication from './componentes/Authentication';
 import Discount from './componentes/Discount';
 import ProductDetail from './componentes/ProductDetails';
-import ProductRender from './context/ProductRender';
+import Product from './componentes/ProductCopy'
 import { AuthProvider } from './context/AuthorContext';
 import Error404 from './componentes/Error404';
 import { CartProvider } from './context/CartContext';
@@ -34,15 +34,6 @@ function App() {
     }
   };
 
-  const handleProductClick = (productId, navigate) => {
-    if (isLoggedIn) {
-      navigate(`/producto/${productId}`);
-    } else {
-      setTargetProduct(`/producto/${productId}`);
-      navigate('/registro');
-    }
-  };
-
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -51,9 +42,9 @@ function App() {
             <Menu onSearch={() => { }} cartItems={cartItems} toggleTheme={toggleTheme} isLoggedIn={isLoggedIn} />
             <Discount username={username} />
             <Routes>
-              <Route path="/" element={<ProductRender products={products} /*addToCart={addToCart}*/ handleProductClick={handleProductClick} />} />
+              <Route path="/" element={<Product products={products} />} />
               <Route path="/carrito" element={<Cart cartItems={cartItems} />} />
-              <Route path="/producto/:productId" element={<ProductDetail products={products} /*addToCart={addToCart}*/ />} />
+              <Route path="/producto/:productId" element={<ProductDetail products={products}  />} />
               <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} targetProduct={targetProduct} />} />
               <Route path="*" element={<Error404 />} />
             </Routes>
