@@ -34,21 +34,24 @@ const useProducts = () => {
             setProducts((prevProducts) => 
                 prevProducts.filter((product)=> product.id !== id )
             );
+            alert(`Se ha eliminado un producto `);
         }catch (error){
             console.error("Error deleting product:", error);
         }
     };
     
     const handleSave =() => {
+        console.log(editedProduct);
         if(editedProduct.id !== null){
-            editProduct();
+          editProduct();
         } else {
-            createProdut();
+           createProduct();
         }
     };
 
-    const createProdut = async() =>{
+    const createProduct = async() =>{
         try{
+            console.log(editedProduct)
             const newId =uuidv4();
             const newProduct ={...editedProduct, id:newId};
             const response = await axios.post(API_URL, newProduct);
@@ -59,30 +62,38 @@ const useProducts = () => {
         }
     };
 
-    const editProduct =async () => {
-        try{
+    const editProduct = async () => {
+        try {
             const response = await axios.put(
                 `${API_URL}/${editedProduct.id}`,
-                editProduct
+                editedProduct
             );
-            const updatedProduct=response.data;
-            setProducts((prevProducts)=>
-                prevProducts.map((product)=>
-                    product.id===updatedProduct.id ? updatedProduct : product
+            const updatedProduct = response.data;
+            setProducts((prevProducts) =>
+                prevProducts.map((product) =>
+                    product.id === updatedProduct.id ? updatedProduct : product
                 )
             );
-            setEditedProduct({id:null, title:"", price:"", description:""});
-        }catch (error){
+            setEditedProduct({
+                ...editedProduct
+            });
+        } catch (error) {
             console.error("Error editing product:", error);
         }
-    }
+    };
+    
 
 
     // Función para manejar cambios en los campos de entrada
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedProduct({ ...editedProduct, [name]: value });
-    };
+   // Función para manejar cambios en los campos de entrada
+const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: value
+    }));
+};
+
 
     const handleEditProductDetails =(id, title, price, description) => {
         const selectedProduct =products.find((product) => product.id === id)
@@ -97,7 +108,7 @@ const useProducts = () => {
         handleEditProductDetails,
         handleSave,
         handleInputChange,
-        createProdut
+        createProduct
     };
 };
 

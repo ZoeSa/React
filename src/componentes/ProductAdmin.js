@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+/*import React, { useEffect } from 'react';
 import useProducts from '../hook/useProduct';
 
 const Loader = () => {
@@ -70,8 +70,9 @@ const ProductAdmin = () => {
     /* Esto tiene que ir en la página global dado que tiene que ser un botón general 
     <div>
     <button onClick={() => createProduct()}>Crear Producto</button>
-  </div>*/
+  </div>
   );
 };
 
 export default ProductAdmin;
+*/

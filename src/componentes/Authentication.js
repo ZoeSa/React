@@ -48,6 +48,7 @@ const Authentication = ({ onRegister, targetProduct }) => {
 
     // Guardar en localStorage
     localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('email', JSON.stringify(email));
 
     if (onRegister){
         console.log("3", targetProduct);
