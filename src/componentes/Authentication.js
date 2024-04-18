@@ -1,45 +1,45 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hook/useAuth';
 
-const Authentication = ({onRegister, targetProduct }) => {
-  const { isLoggedIn, logout} = useAuth();
+const Authentication = ({ onRegister }) => {
+  const { isLoggedIn, handleLoading } = useAuth();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
- 
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
-      // Registro de usuario
-      localStorage.setItem('username', username);
-      localStorage.setItem('password', password);
-
-      if (onRegister){
-        onRegister(username);
-      }
-      setUsername('');
-      setPassword('');
+    await handleLoading({ name: username, email, password });
+    if (onRegister) {
+      onRegister(username);
+    }
+    setUsername('');
+    setEmail('');
+    setPassword('');
      
-      if (targetProduct) {
-        navigate(targetProduct);
-      } else {
-        navigate('/carrito');
-      }
-  
+    const targetProduct = location.state && location.state.targetProduct;
+    if (targetProduct) {
+      navigate(targetProduct);
+    } else {
+      navigate('/carrito');
+    }
   };
-
-  
 
   return (
     <div>
@@ -52,6 +52,12 @@ const Authentication = ({onRegister, targetProduct }) => {
           onChange={handleUsernameChange}
         />
         <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <input
           type="password"
           placeholder="Contraseña"
           value={password}
@@ -61,7 +67,7 @@ const Authentication = ({onRegister, targetProduct }) => {
       </form>
      
       {isLoggedIn && (
-        <button onClick={logout}>Cerrar Sesión</button>
+        <button onClick={() => navigate('/carrito')}>Ir al Carrito</button>
       )}
     </div>
   );

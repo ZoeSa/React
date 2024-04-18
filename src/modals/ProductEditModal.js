@@ -1,25 +1,22 @@
 import React, { useState } from "react";
+import axios from "axios"; // Asegúrate de importar axios si lo estás utilizando
+import { API_URL } from "../constants"; // Asumo que tienes una constante para la URL de la API
 
-const AddProductModal = ({ addProduct, closeModal }) => {
-  const [newProduct, setNewProduct] = useState({
-    title: "",
-    price: 0,
-    description: "",
-    image: "",
+const ProductEditModal = ({ handleEditProduct, closeModal, product }) => {
+  const [editedProduct, setEditedProduct] = useState({
+    title: product.title,
+    price: product.price,
+    description: product.description,
+   
+    // image: product.image,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewProduct((prevProduct) => ({
+    setEditedProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addProduct(newProduct);
-    closeModal();
   };
 
   const handleModalClick = (e) => {
@@ -28,17 +25,32 @@ const AddProductModal = ({ addProduct, closeModal }) => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${API_URL}/${editedProduct.id}`,
+        editedProduct
+      );
+      const updatedProduct = response.data;
+      handleEditProduct(updatedProduct);
+      closeModal();
+    } catch (error) {
+      console.error("Error editing product:", error);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={handleModalClick}>
       <div>
-        <h2>Crear un nuevo producto</h2>
+        <h2>Editar Producto</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Title:
             <input
               type="text"
               name="title"
-              value={newProduct.title}
+              value={editedProduct.title}
               onChange={handleInputChange}
               required
             />
@@ -48,7 +60,7 @@ const AddProductModal = ({ addProduct, closeModal }) => {
             <input
               type="number"
               name="price"
-              value={newProduct.price}
+              value={editedProduct.price}
               onChange={handleInputChange}
               required
             />
@@ -57,22 +69,22 @@ const AddProductModal = ({ addProduct, closeModal }) => {
             Description:
             <textarea
               name="description"
-              value={newProduct.description}
+              value={editedProduct.description}
               onChange={handleInputChange}
               required
             />
           </label>
-          
-           <label>
+          {/* Asegúrate de incluir la entrada de imagen si es necesaria */}
+          {/* <label>
             Image URL:
             <input
               type="text"
               name="image"
-              value={newProduct.image}
+              value={editedProduct.image}
               onChange={handleInputChange}
             />
-          </label> 
-          <button type="submit">Añadir</button>
+          </label> */}
+          <button type="submit">Guardar Cambios</button>
           <button type="button" onClick={closeModal}>
             Cancelar
           </button>
@@ -82,4 +94,4 @@ const AddProductModal = ({ addProduct, closeModal }) => {
   );
 };
 
-export default AddProductModal;
+export default ProductEditModal;

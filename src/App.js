@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthorContext';
 import Error404 from './componentes/Error404';
 import { CartProvider } from './context/CartContext';
 import "./App.css";
+import { ProductsProvider } from './context/ProductsContext';
 
 function App() {
   const [products] = useState(data);
@@ -18,8 +19,9 @@ function App() {
   const [theme, setTheme] = useState('light');
   const [username, setUsername] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [targetProduct, setTargetProduct] = useState(null);
+  const [targetProduct] = useState(null);
 
+  console.log(products)
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
@@ -34,24 +36,18 @@ function App() {
     }
   };
 
-  const handleProductClick = (productId, navigate) => {
-    if (isLoggedIn) {
-      navigate(`/producto/${productId}`);
-    } else {
-      setTargetProduct(`/producto/${productId}`);
-      navigate('/registro');
-    }
-  };
+
 
   return (
     <AuthProvider>
       <BrowserRouter>
+      <ProductsProvider>
         <CartProvider>
           <div className={`App ${theme}`}>
             <Menu onSearch={() => { }} cartItems={cartItems} toggleTheme={toggleTheme} isLoggedIn={isLoggedIn} />
             <Discount username={username} />
             <Routes>
-              <Route path="/" element={<ProductRender products={products} /*addToCart={addToCart}*/ handleProductClick={handleProductClick} />} />
+              <Route path="/" element={<ProductRender products={products} /*addToCart={addToCart}*/ /*handleProductClick={handleProductClick}*/ />} />
               <Route path="/carrito" element={<Cart cartItems={cartItems} />} />
               <Route path="/producto/:productId" element={<ProductDetail products={products} /*addToCart={addToCart}*/ />} />
               <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} targetProduct={targetProduct} />} />
@@ -59,6 +55,7 @@ function App() {
             </Routes>
           </div>
         </CartProvider>
+        </ProductsProvider>
       </BrowserRouter>
     </AuthProvider>
   );
