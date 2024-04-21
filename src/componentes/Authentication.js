@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import { useAuth } from '../hook/useAuth';
 
 const Authentication = ({ onRegister, targetProduct }) => {
   const { isLoggedIn, logout} = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -51,18 +52,18 @@ const Authentication = ({ onRegister, targetProduct }) => {
     localStorage.setItem('email', JSON.stringify(email));
 
     if (onRegister){
-        console.log("3", targetProduct);
+        console.log("3", location.state.productId);
       onRegister(username);
     }
     setUsername('');
     setEmail('');
     setPassword('');
 
-    if (targetProduct) {
-        console.log("1", targetProduct);
-      navigate(targetProduct);
+    if (location.state && location.state.productId) {
+        console.log("1", location.state.productId);
+      navigate(`/producto/${location.state.productId}`);
     } else {
-        console.log("2", targetProduct);
+        console.log("2", location.state.productId);
       navigate('/carrito');
     }
   };

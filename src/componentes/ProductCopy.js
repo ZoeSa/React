@@ -3,6 +3,7 @@ import useProducts from '../hook/useProduct';
 import Product from './Product';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import EditPopup from "./EditPopup";
 
 const Loader = () => {
   return <div className='spinner'>Cargando...</div>;
@@ -37,6 +38,7 @@ const ProductAdmin = () => {
   }, []);
 
   const handleProductClick = (productId, navigate) => {
+    console.log("soy prodcut copy");
     if (loggedIn) {
       console.log(`Producto seleccionado: ${productId}`);
       navigate(`/producto/${productId}`);
@@ -112,28 +114,6 @@ const ProductAdmin = () => {
   );
 };
 
-const EditPopup = ({ product, handleClose, handleSave, isCreating, handleInputChange }) => {
 
-  
-  return (
-    <div className="popup">
-      <div className="popup-content">
-        <h2>{isCreating ? 'Crear Nuevo Producto' : 'Editar Producto'}</h2>
-        <form onSubmit={handleSave}>
-          <label htmlFor="title">Título:</label>
-          <input type="text" id="title" name="title" defaultValue={product ? product.title : ''} onChange={handleInputChange} />
-          <label htmlFor="price">Precio:</label>
-          <input type="text" id="price" name="price" defaultValue={product ? product.price : ''} onChange={handleInputChange}/>
-          <label htmlFor="description">Descripción:</label>
-          <textarea id="description" name="description" defaultValue={product ? product.description : '' } onChange={handleInputChange}/>
-          <div className="buttons">
-            <button type="submit">{isCreating ? 'Crear' : 'Guardar'}</button>
-            <button type="button" onClick={handleClose}>Cancelar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 export default ProductAdmin;

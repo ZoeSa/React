@@ -6,7 +6,7 @@ import Cart from './componentes/Cart';
 import Authentication from './componentes/Authentication';
 import Discount from './componentes/Discount';
 import ProductDetail from './componentes/ProductDetails';
-import Product from './componentes/ProductCopy'
+import Product from './redux/views/ProductAdmin'
 import { AuthProvider } from './context/AuthorContext';
 import Error404 from './componentes/Error404';
 import { CartProvider } from './context/CartContext';
