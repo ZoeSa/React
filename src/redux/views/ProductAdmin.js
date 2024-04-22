@@ -15,7 +15,7 @@ const ProductAdmin = () => {
  
  // const loggedIn = true; 
   const { addToCart } = useCart();
-  const handleAddProduct =AddProduct();
+  const handleAddProduct = AddProduct();
   const products = useSelector(selectAllProducts); // Obtén la lista de productos del estado de Redux
   const dispatch= useDispatch();
   

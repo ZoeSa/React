@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import data from "../data/data.json";
 
 
+const data = "http://localhost:3000/products";
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);

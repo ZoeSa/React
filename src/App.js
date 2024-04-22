@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
-import data from './data/data.json';
 import Menu from './componentes/Menu';
 import Cart from './componentes/Cart';
 import Authentication from './componentes/Authentication';
@@ -19,7 +18,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [targetProduct, setTargetProduct] = useState(null);
-
+  const data= "http://localhost:3000/products";
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };

@@ -19,15 +19,6 @@ const API_URL = "http://localhost:3000/products";
         throw new Error(error.message);
     }
 }*/
-export const addProduct = async (product) =>{
-    try{
-        const response =await axios.post(API_URL, product);
-        return response.data;
-    }catch(error){
-        throw new Error(error.message);
-    }
-};
-
 /*export const editProduct = (id, updatedProduct) =>   async (dispatch) => {
     try {
         await axios.put(`${API_URL}/${id}`, updatedProduct);
@@ -40,16 +31,6 @@ export const addProduct = async (product) =>{
     }
 }*/
 
-export const editProduct =  async (id, updatedProduct) => {
-
-    try {
-        const response = await axios.put(`${API_URL}/${id}`, updatedProduct);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-};
-
  /*export const deleteProduct = (productId) =>async (dispatch) =>  {
    try {
         await axios.delete(`${API_URL}/${id}`);
@@ -61,14 +42,6 @@ export const editProduct =  async (id, updatedProduct) => {
         throw new Error(error.message);
     }
 }*/
-export const deleteProduct = async (productId) =>  {
-    try {
-        const response =await axios.delete(`${API_URL}/${productId}`);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-};
 
 /*export const getProducts = () => async (dispatch) => {
     try {
@@ -82,11 +55,41 @@ export const deleteProduct = async (productId) =>  {
     }
 }; */
 
-export const getProducts = async () => {
+
+
+export const addProduct = async (product) => {
     try {
-        const response = await axios.get(API_URL);
-        return response.data
+        const response = await axios.post(API_URL, product);
+        return response.data;
     } catch (error) {
         throw new Error(error.message);
     }
 };
+
+export const editProduct = async (id, updatedProduct) => {
+    try {
+        const response = await axios.put(`${API_URL}/${id}`, updatedProduct);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const deleteProduct = async (productId) => {
+    try {
+        const response = await axios.delete(`${API_URL}/${productId}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const getProducts = async () => {
+    try {
+        const response = await axios.get(API_URL);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
