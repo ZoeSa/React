@@ -42,9 +42,9 @@ function App() {
             <Menu onSearch={() => { }} cartItems={cartItems} toggleTheme={toggleTheme} isLoggedIn={isLoggedIn} />
             <Discount username={username} />
             <Routes>
-              <Route path="/" element={<Product products={products} setTargetProduct={setTargetProduct}/>} />
+              <Route path="/" element={<Product setTargetProduct={setTargetProduct} isLoggedIn={isLoggedIn}/>} />
               <Route path="/carrito" element={<Cart cartItems={cartItems} />} />
-              <Route path="/producto/:productId" element={<ProductDetail products={products}  />} />
+              <Route path="/producto/:productId" element={<ProductDetail products={products}   />} />
               <Route path="/registro" element={<Authentication onRegister={handleUserRegistration} targetProduct={targetProduct} />} />
               <Route path="*" element={<Error404 />} />
             </Routes>

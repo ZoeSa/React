@@ -1,9 +1,9 @@
 // context/Product.js
 import React from 'react';
 
-const Product = ({ id, title, price, description, image, handleProductClick, deletedProduct, handleEditProductDetails, setTargetProductState }) => {
+const Product = ({ id, title, price, description, image, handleProductClick, deletedProduct, handleEditProductDetails }) => {
   return (
-    <div className="product" onClick={() => handleProductClick(id, setTargetProductState)}>
+    <div className="product" onClick={ handleProductClick}>
       <img src={image} alt={title} />
       <h2>{title}</h2>
       <p className='description'>{description}</p>

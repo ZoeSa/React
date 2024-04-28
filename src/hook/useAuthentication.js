@@ -50,9 +50,8 @@ const useAuthentication = ({ onRegister, targetProduct }) => {
       onRegister(username);
     }
     
-    console.log(targetProduct);
     if (targetProduct) {
-      navigate(targetProduct);
+      navigate(`/producto/${targetProduct}`);
     } else {
       navigate('/carrito');
     }

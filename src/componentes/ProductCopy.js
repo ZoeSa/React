@@ -8,7 +8,7 @@ const Loader = () => {
   return <div className='spinner'>Cargando...</div>;
 };
 
-const ProductAdmin = () => {
+const ProductAdmin = ({setTargetProduct, isLoggedIn}) => {
   const {
     products,
     editedProduct,
@@ -28,7 +28,7 @@ const ProductAdmin = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupData, setPopupData] = useState(null);
   const [isCreating, setIsCreating] = useState(false); // Estado para indicar si se está creando un nuevo producto
-  const [targetProduct, setTargetProduct] = useState(null);
+  
 
   useEffect(() => {
     const userEmail = localStorage.getItem('email');
@@ -39,8 +39,8 @@ const ProductAdmin = () => {
 
   const handleProductClick = (productId, navigate, setTargetProduct) => {
     setTargetProduct(productId);
-    console.log(targetProduct, productId);
-    if (loggedIn) {
+    console.log(isLoggedIn)
+    if (isLoggedIn||loggedIn) {
       console.log(`Producto seleccionado: ${productId}`);
       navigate(`/producto/${productId}`);
     } else {
@@ -94,8 +94,7 @@ const ProductAdmin = () => {
             price={product.price}
             description={product.description}
             image={product.image}
-            handleProductClick={(productId) => handleProductClick(productId, navigate, setTargetProduct)} // Cambia el nombre del parámetro
-            setTargetProductState={setTargetProduct} 
+            handleProductClick={() => handleProductClick(product.id, navigate, setTargetProduct)} // Cambia el nombre del parámetro
             addToCart={() => addToCart(product.id)}
           />
         )
