@@ -1,14 +1,15 @@
+// Authentication.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hook/useAuth';
+import useAuthentication from '../hook/useAuthentication'; // Importamos nuestro hook personalizado
 
 const Authentication = ({ onRegister, targetProduct }) => {
-  const { isLoggedIn, logout} = useAuth();
-  const navigate = useNavigate();
+  const { handleRegistration, passwordError } = useAuthentication({ onRegister, targetProduct });
+
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -22,49 +23,13 @@ const Authentication = ({ onRegister, targetProduct }) => {
     setPassword(e.target.value);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validar que se ingresen todos los campos
-    if (!username || !email || !password) {
-      alert('Por favor ingrese todos los campos.');
-      return;
-    }
-
-    // Registro de usuario
-    const newUser = {
-      username: username,
-      email: email,
-      password: password,
-      rol: email === 'admin@admin.com' ? 'admin' : 'user' // Establecer el rol según el correo electrónico
-    };
-
-    // Obtener los usuarios existentes
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-
-    // Agregar el nuevo usuario
-    users.push(newUser);
-
-
-    // Guardar en localStorage
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('email', JSON.stringify(email));
-
-    if (onRegister){
-        console.log("3", targetProduct);
-      onRegister(username);
-    }
-    setUsername('');
-    setEmail('');
-    setPassword('');
-
-    if (targetProduct) {
-        console.log("1", targetProduct);
-      navigate(targetProduct);
-    } else {
-        console.log("2", targetProduct);
-      navigate('/carrito');
-    }
+    handleRegistration(username, email, password, confirmPassword, targetProduct);
   };
 
   return (
@@ -89,12 +54,15 @@ const Authentication = ({ onRegister, targetProduct }) => {
           value={password}
           onChange={handlePasswordChange}
         />
+        <input
+          type="password"
+          placeholder="Confirmar contraseña"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+        />
+        {passwordError && <p>{passwordError}</p>}
         <button type="submit">Registrarse</button>
       </form>
-     
-      {isLoggedIn && (
-        <button onClick={logout}>Cerrar Sesión</button>
-      )}
     </div>
   );
 };
